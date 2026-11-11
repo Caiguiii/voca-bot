@@ -37,6 +37,11 @@ export function wordBubble(w, { label = '📘 多益金色單字', fav = false }
     }
     body.push(section('📝 例句', lines));
   }
+  if (w.family?.length) {
+    body.push(
+      section('🌱 詞性變化', w.family.map((f) => text(`• ${f.word} (${f.pos})  ${f.zh}`, { size: 'sm', color: '#444444' }))),
+    );
+  }
   body.push(section('≈ 相似詞', [text(w.synonyms?.length ? w.synonyms.join(', ') : '—', { size: 'sm', color: '#444444' })]));
   body.push(section('≠ 相反詞', [text(w.antonyms?.length ? w.antonyms.join(', ') : '—', { size: 'sm', color: '#444444' })]));
 

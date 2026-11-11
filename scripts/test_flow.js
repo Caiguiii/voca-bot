@@ -125,11 +125,14 @@ await text('ACCOMMODATE');
 assert.equal(last().body.messages[0].type, 'flex');
 await text('streamline');
 assert.match(lastText(), /還沒學到/);
+await text('accommodation');
+assert.match(JSON.stringify(last().body.messages[0].contents.header), /accommodation → accommodate/);
+assert.match(JSON.stringify(last().body.messages[0].contents.body), /詞性變化/);
 await text('查 收購');
 assert.match(lastText(), /acquisition/);
 await text('qwertyz');
 assert.match(lastText(), /沒有「qwertyz」/);
-ok('英文查詢、直接輸入、未學過、中文查詢、查無此字');
+ok('英文查詢、直接輸入、詞性變化查詢、未學過、中文查詢、查無此字');
 
 // 11. 已學
 await text('已學');

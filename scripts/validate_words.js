@@ -52,6 +52,9 @@ for (const file of files) {
     if (!isPairList(w.examples)) errors.push(`${tag}：examples 需至少一筆 {en, zh}`);
     if (!isStrList(w.synonyms) || !w.synonyms.length) errors.push(`${tag}：synonyms 需至少一個`);
     if (!isStrList(w.antonyms)) errors.push(`${tag}：antonyms 必須是字串陣列（可為空）`);
+    if (!Array.isArray(w.family) || !w.family.every((f) => isStr(f?.word) && isStr(f?.pos) && isStr(f?.zh))) {
+      errors.push(`${tag}：family 必須是 [{word, pos, zh}] 陣列（可為空）`);
+    }
   }
 }
 

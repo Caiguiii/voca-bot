@@ -196,7 +196,8 @@ async function lookup(env, token, user, q, implicit = false) {
       return send(env, token, [textMsg(`🔒「${w.word}」還沒學到喔，大約再 ${daysLeft} 天會出現 📅\n先別偷看，專心學今天的字吧！`)]);
     }
     const fav = await db.isFavorite(env.DB, userId, w.id);
-    return send(env, token, [wordCard(w, { label: '🔍 查詢結果', fav })]);
+    const viaFamily = w.word.toLowerCase() !== q.toLowerCase();
+    return send(env, token, [wordCard(w, { label: viaFamily ? `🔍 ${q.toLowerCase()} → ${w.word}` : '🔍 查詢結果', fav })]);
   }
 
   // 中文：在已學單字的中文意思裡找

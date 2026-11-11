@@ -10,9 +10,21 @@ export const DAILY_COUNT = 5;
 const byId = new Map(WORDS.map((w) => [w.id, w]));
 const byWord = new Map(WORDS.map((w) => [w.word.toLowerCase(), w]));
 const indexById = new Map(WORDS.map((w, i) => [w.id, i]));
+// 詞性變化（例如 accommodation → accommodate）；主單字優先
+const byFamily = new Map();
+for (const w of WORDS) {
+  for (const f of w.family || []) {
+    const k = f.word.toLowerCase();
+    if (!byWord.has(k) && !byFamily.has(k)) byFamily.set(k, w);
+  }
+}
 
 export const getWord = (id) => byId.get(Number(id));
-export const findWord = (q) => byWord.get(String(q).trim().toLowerCase());
+/** 用主單字或其詞性變化找到單字 */
+export const findWord = (q) => {
+  const k = String(q).trim().toLowerCase();
+  return byWord.get(k) || byFamily.get(k);
+};
 export const wordIndex = (id) => indexById.get(Number(id));
 export const wordsFrom = (start, n) => WORDS.slice(start, start + n);
 
