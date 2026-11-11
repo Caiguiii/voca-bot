@@ -1,0 +1,15 @@
+{
+  "name": "voca-bot",
+  "private": true,
+  "type": "module",
+  "description": "LINE 多益金色證書單字學習 Bot（Cloudflare Workers + D1 + GitHub Actions）",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "validate": "node scripts/validate_words.js",
+    "test": "node scripts/validate_words.js && node scripts/test_flow.js"
+  },
+  "devDependencies": {
+    "wrangler": "^4.0.0"
+  }
+}

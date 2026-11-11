@@ -1,0 +1,28 @@
+name: Daily words
+
+# 每天 02:00 UTC = 台灣時間早上 10:00
+# （GitHub 排程尖峰時可能延遲；Cloudflare 會在 10:30 補送，不會重複）
+on:
+  schedule:
+    - cron: "0 2 * * *"
+  workflow_dispatch:
+    inputs:
+      force:
+        description: "強制再送一批（測試用，會直接前進到下一天的單字）"
+        type: boolean
+        default: false
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 觸發每日推播
+        env:
+          WORKER_URL: ${{ secrets.WORKER_URL }}
+          CRON_SECRET: ${{ secrets.CRON_SECRET }}
+          FORCE: ${{ inputs.force && '1' || '0' }}
+        run: |
+          if [ -z "$WORKER_URL" ]; then echo "::error::缺少 GitHub Secret: WORKER_URL"; exit 1; fi
+          curl -fsS -X POST "${WORKER_URL%/}/cron/daily?force=$FORCE" \
+            -H "Authorization: Bearer $CRON_SECRET"
+          echo

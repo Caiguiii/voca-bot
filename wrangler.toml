@@ -1,0 +1,17 @@
+name = "voca-bot"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Cloudflare D1 資料庫
+# 到 Cloudflare 後台 → Storage & Databases → D1 → Create，名稱填 voca-db，
+# 然後把頁面上的 Database ID 貼到下面 database_id。
+[[d1_databases]]
+binding = "DB"
+database_name = "voca-db"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+
+# 備援排程：02:30 UTC = 台灣 10:30。
+# 主排程是 GitHub Actions 的 10:00；如果 GitHub 延遲或被停用，這裡會補送。
+# 程式會檢查「今天送過沒」，所以不會重複推播。
+[triggers]
+crons = ["30 2 * * *"]

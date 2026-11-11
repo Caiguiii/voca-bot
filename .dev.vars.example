@@ -1,0 +1,4 @@
+# 本機測試用（npx wrangler dev）。複製成 .dev.vars 再填入；.dev.vars 不會上傳 GitHub。
+LINE_CHANNEL_SECRET=your_channel_secret
+LINE_CHANNEL_ACCESS_TOKEN=your_channel_access_token
+CRON_SECRET=any_long_random_string
